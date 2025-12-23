@@ -3,7 +3,7 @@ WORKDIR /app
 
 # Cài dependency
 COPY package*.json ./
-RUN npm install
+RUN npm ci
 
 # Copy source và build
 COPY . .
@@ -15,7 +15,7 @@ WORKDIR /app
 
 # Chỉ cần dependency runtime
 COPY --from=builder /app/package*.json ./
-RUN npm install --omit=dev
+RUN npm ci --omit=dev
 
 # Copy code đã build và file cần thiết
 COPY --from=builder /app/dist ./dist
@@ -23,4 +23,4 @@ COPY --from=builder /app/dist ./dist
 ENV NODE_ENV=production
 EXPOSE 3000
 
-CMD ["node", "--require", "./dist/tracing.js", "./dist/index.js"]
+CMD ["node", "./dist/index.js"]

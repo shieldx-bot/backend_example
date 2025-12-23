@@ -1,0 +1,15 @@
+# Keep build context small and prevent host files from overwriting container installs
+node_modules
+npm-debug.log
+
+# Build output should be produced inside Docker, not copied from host
+dist
+
+# VCS/editor files
+.git
+.gitignore
+.vscode
+.DS_Store
+
+# Secrets
+.env
