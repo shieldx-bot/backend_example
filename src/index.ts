@@ -5,9 +5,9 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('Hello from Express with TypeScript - V6 !');
+  res.send('Hello from Express with TypeScript - V7 !');
 });
 
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port} - V6`);
+  console.log(`Server is running on http://localhost:${port} - V7`);
 });
