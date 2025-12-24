@@ -31,13 +31,34 @@ pipeline {
                 docker build -t ${USERNAME}/${NAME_IMAGE}:${VERSION_IMAGE} .
                 echo "$DOCKER_HUB_PSW" | docker login -u "$DOCKER_HUB_USR" --password-stdin
                 docker push  ${USERNAME}/${NAME_IMAGE}:${VERSION_IMAGE}   
-
-
-                
-
-
                 echo " success build and push image "
                 '''
+                 script { 
+                     def digest = sh (
+                    script: "docker inspect --format='{{index .RepoDigests 0}}' ${USERNAME}/${NAME_IMAGE}:${VERSION_IMAGE}"
+                    , returnStdout: true
+                ).trim()
+                env.IMAGE_DIGEST = digest
+                echo "IMAGE_DIGEST: ${env.IMAGE_DIGEST}"
+                sh 'echo "Will deploy image digest: $IMAGE_DIGEST"'
+
+                 }
+                 withCredentials([
+                     file(credentialsId: 'cosign-key', variable: 'COSIGN_KEY_FILE'),
+                     string(credentialsId: 'cosign-passphrase', variable: 'COSIGN_PASSWORD')
+                     ]) {
+                         sh '''
+                            set -euo pipefail
+                            export COSIGN_PASSWORD="$COSIGN_PASSWORD"
+
+                            cosign sign --key "$COSIGN_KEY_FILE" "$IMAGE_DIGEST"
+
+                            echo "Kiểm tra chữ ký có tồn tại chưa..."
+                            cosign tree "$IMAGE_DIGEST"
+                        '''
+ 
+                         }
+
 
             } 
 
