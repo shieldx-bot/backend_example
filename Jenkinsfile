@@ -21,17 +21,26 @@ pipeline {
     stages {
         stage('Build  & Push Docker Image') {
             steps {
-                sh  ''' 
+            withCredentials([usernamePassword(credentialsId: 'docker-hub-login', usernameVariable: 'DOCKER_HUB_USR', passwordVariable: 'DOCKER_HUB_PSW')]) { 
+                  sh  ''' 
                 rm -rf backend_example
                 git clone https://github.com/shieldx-bot/backend_example.git
                 cd backend_example
                 docker build -t ${NAME_IMAGE}:${VERSION_IMAGE} .
-                echo "$DOCKER_CREADS_PSW" | docker login -u "$DOCKER_CREADS_USR" --password-stdin
+                echo "$DOCKER_HUB_PSW" | docker login -u "$DOCKER_HUB_USR" --password-stdin
                 docker push ${NAME_IMAGE}:${VERSION_IMAGE}   
+
+
+                
 
 
                 echo " success build and push image "
                 '''
+
+            } 
+
+
+                
             }
         }
         
