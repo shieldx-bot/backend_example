@@ -5,7 +5,7 @@ pipeline {
         TELEGRAM_TOKEN = credentials('telegram-bot-token')
         TELEGRAM_CHAT_ID = credentials('telegram-chat-id')
         DOCKER_CREADS = credentials('docker-hub-login')
-        VERSION_IMAGE = 'latest'
+        VERSION_IMAGE = 'v1.0.0'
         NAME_IMAGE = 'backend_example'
     }
 
