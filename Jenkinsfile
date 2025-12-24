@@ -49,10 +49,10 @@ pipeline {
                      ]) {
                          sh '''
                        
-                             set -eu
-                             export COSIGN_PASSWORD="$COSIGN_PASSWORD"
-                             cosign sign --key "$COSIGN_KEY_FILE" "$IMAGE_DIGEST"
-                             cosign tree "$IMAGE_DIGEST"
+                           set -eu
+    export COSIGN_PASSWORD="$COSIGN_PASSWORD"
+    cosign sign --yes --key "$COSIGN_KEY_FILE" "$IMAGE_DIGEST"
+    cosign tree "$IMAGE_DIGEST" 
                         '''
  
                          }
