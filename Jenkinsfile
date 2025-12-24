@@ -9,6 +9,15 @@ pipeline {
         NAME_IMAGE = 'backend_example'
     }
 
+    options {
+        timestamps()
+    }
+
+    // Requires Jenkins GitHub plugin + a GitHub webhook pointed to: https://<jenkins>/github-webhook/
+    triggers {
+        githubPush()
+    }
+
     stages {
         stage('Build  & Push Docker Image') {
             steps {
