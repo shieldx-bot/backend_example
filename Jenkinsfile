@@ -47,14 +47,12 @@ pipeline {
                      file(credentialsId: 'cosign-key', variable: 'COSIGN_KEY_FILE'),
                      string(credentialsId: 'cosign-passphrase', variable: 'COSIGN_PASSWORD')
                      ]) {
-                         sh '''#!/usr/bin/env bash
-                            set -euo pipefail
-                            export COSIGN_PASSWORD="$COSIGN_PASSWORD"
-
-                            cosign sign --key "$COSIGN_KEY_FILE" "$IMAGE_DIGEST"
-
-                            echo "Kiểm tra chữ ký có tồn tại chưa..."
-                            cosign tree "$IMAGE_DIGEST"
+                         sh '''
+                       
+                             set -eu
+                             export COSIGN_PASSWORD="$COSIGN_PASSWORD"
+                             cosign sign --key "$COSIGN_KEY_FILE" "$IMAGE_DIGEST"
+                             cosign tree "$IMAGE_DIGEST"
                         '''
  
                          }
