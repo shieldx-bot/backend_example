@@ -28,7 +28,7 @@ pipeline {
                 rm -rf backend_example
                 git clone https://github.com/shieldx-bot/backend_example.git
                 cd backend_example
-                docker build -t /${USERNAME}/${NAME_IMAGE}:${VERSION_IMAGE} .
+                docker build -t ${USERNAME}/${NAME_IMAGE}:${VERSION_IMAGE} .
                 echo "$DOCKER_HUB_PSW" | docker login -u "$DOCKER_HUB_USR" --password-stdin
                 docker push  ${USERNAME}/${NAME_IMAGE}:${VERSION_IMAGE}   
 
