@@ -24,22 +24,16 @@ pipeline {
                 sh  ''' 
                 rm -rf backend_example
                 git clone https://github.com/shieldx-bot/backend_example.git
-              
+                cd backend_example
+                docker build -t ${NAME_IMAGE}:${VERSION_IMAGE} .
+                echo "$DOCKER_CREADS_PSW" | docker login -u "$DOCKER_CREADS_USR" --password-stdin
+                docker push ${NAME_IMAGE}:${VERSION_IMAGE}   
+
+
+                echo " success build and push image "
                 '''
-                //   cd backend_example
-                // docker build -t ${NAME_IMAGE}:${VERSION_IMAGE} .
-                // echo "$DOCKER_CREADS_PSW" | docker login -u "$DOCKER_CREADS_USR" --password-stdin
-                // docker push ${NAME_IMAGE}:${VERSION_IMAGE}   
-            //      sh """
-            // msg="Docker Image ${NAME_IMAGE}:${VERSION_IMAGE} has been built and pushed successfully."
-            // curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage" \
-            // --data-urlencode "chat_id=${TELEGRAM_CHAT_ID}" \
-            // --data-urlencode "text=${msg}"
-            //         """
             }
         }
         
     }
 }
-
-// bạn hãy copy mã này vào file root của thư mục bạn muốn tạo webhook
