@@ -7,6 +7,8 @@ pipeline {
         DOCKER_CREADS = credentials('docker-hub-login')
         VERSION_IMAGE = 'v1.0.0'
         NAME_IMAGE = 'backend_example'
+        USERNAME = "shieldxbot"
+      
     }
 
     options {
@@ -26,9 +28,9 @@ pipeline {
                 rm -rf backend_example
                 git clone https://github.com/shieldx-bot/backend_example.git
                 cd backend_example
-                docker build -t ${NAME_IMAGE}:${VERSION_IMAGE} .
+                docker build -t /${USERNAME}/${NAME_IMAGE}:${VERSION_IMAGE} .
                 echo "$DOCKER_HUB_PSW" | docker login -u "$DOCKER_HUB_USR" --password-stdin
-                docker push ${NAME_IMAGE}:${VERSION_IMAGE}   
+                docker push  ${USERNAME}/${NAME_IMAGE}:${VERSION_IMAGE}   
 
 
                 
