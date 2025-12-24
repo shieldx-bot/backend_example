@@ -47,7 +47,7 @@ pipeline {
                      file(credentialsId: 'cosign-key', variable: 'COSIGN_KEY_FILE'),
                      string(credentialsId: 'cosign-passphrase', variable: 'COSIGN_PASSWORD')
                      ]) {
-                         sh '''
+                         sh '''#!/usr/bin/env bash
                             set -euo pipefail
                             export COSIGN_PASSWORD="$COSIGN_PASSWORD"
 
